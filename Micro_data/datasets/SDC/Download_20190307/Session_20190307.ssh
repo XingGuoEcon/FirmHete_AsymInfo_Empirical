@@ -1,0 +1,52 @@
+                      Session
+Deal Type: NI
+Author: xin
+Created: 4/25/2019 9:42:19 AM
+Comments: 
+
+
+
+Session Contents:
+Global New Issues Databases^TRUE
+EQ_CS^
+EQ_CS^
+C^CEC^CNC^EC^ICX^JPC^LAC^OC^R144C^UKC^ANCX^ASPC^
+
+REQUEST^0^TSDCReq_InitDbSelection^^DATABASES: All Public & Private Common Stock, exc. UK & PO (C, CEC, CNC, EC, ICX, JPC, LAC, OC, R144C, UKC, ANCX, ASPC)
+C^CEC^CNC^EC^ICX^JPC^LAC^OC^R144C^UKC^ANCX^ASPC^
+^
+
+REQUEST^1^TSDCReq_InitDate^^Dates: 1/1/1959 to 12/31/2018 (Last 60 Years) (Calendar)
+^1/1/1959 to 12/31/2018^rdbLast^60^Years^C^
+D^
+
+REQUEST^2^TSDCReq_Query^^Domicile Nation: US
+^DLSTWIDE LIST
+United States of America^US^1
+ENDLIST
+RANK_DOMICILE_NATION^->^
+^US^
+
+REQUEST^3^TSDCReq_Query^^Issuer/Borrower Nation : US
+^DLSTWIDE LIST
+United States of America^US^1
+ENDLIST
+NATC^->^
+^US^
+
+REQUEST^4^TSDCReq_Query^^Target Market: US
+^DLSTWIDE LIST
+United States of America-United States^US^-1
+ENDLIST
+TARGET_MARKET^->^
+^US^
+
+REQUEST^5^TSDCReq_PersonalReport^^Custom Report: Download_20190424 (Columnar) - Save As: E:\Dropbox\Research Projects\EquityMarkets_MonetaryPolicy\Data\Micro_data\datasets\SDC\Download_20190424\Download_20190424.xls
+Download_20190424^^^-1^^^E:\Dropbox\Research Projects\EquityMarkets_MonetaryPolicy\Data\Micro_data\datasets\SDC\Download_20190424\Download_20190424.xls^ ^
+Custom Report^->^
+E:\Dropbox\Research Projects\EquityMarkets_MonetaryPolicy\Data\Micro_data\datasets\SDC\Download_20190424\Download_20190424.rpt
+5^-^FALSE^FALSE^
+FOOTER_LINE^
+NORMALTAB
+
+

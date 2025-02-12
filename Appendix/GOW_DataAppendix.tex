@@ -1,0 +1,635 @@
+\documentclass[11pt]{article} 
+\usepackage{amsfonts,dsfont,amssymb,amsmath,amsthm,bbm,graphicx,hyperref}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} % the layout package
+\setlength{\parindent}{2em}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{titlesec} % customize section title
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{framed}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{forloop}
+\usepackage[capposition=top]{floatrow}
+\usepackage{lscape}
+\usepackage[doublespacing]{setspace}
+\usepackage{tocloft} 
+\usepackage{natbib}
+\usepackage{ifthen}
+\usepackage{subfig}
+\usepackage{rotating}
+\usepackage{tabu}
+\usepackage[labelfont=bf]{caption}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage[space]{grffile}
+\hypersetup{pdfborder = {0 0 0},colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+
+
+% New Command: Math Formulation
+\newcommand{\e}[1]{\exp\left\{#1\right\}}
+\newcommand{\pie}{^{\prime}}
+\newcommand{\prob}[1]{\mathbb{P}\left[#1\right]}
+\newcommand{\cprob}[2]{\mathbb{P}\left[#1|#2\right]}
+\newcommand{\expt}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\cexpt}[2]{\mathbb{E}\left[#1|#2\right]}
+\newcommand{\texpt}[2]{\mathbb{E}_{#1}\left[#2\right]}
+\newcommand{\var}[1]{\mathbb{V}\left[#1\right]}
+\newcommand{\cvar}[2]{\mathbb{V}\left[#1|#2\right]}
+\newcommand{\hatmathcal}[1]{\widehat{\mathcal{#1}}}
+\newcommand{\indSimp}[1]{\mathds{1}\left(#1\right)}
+\newcommand{\indComp}[2]{\mathds{1}_{#1}\left(#2\right)}
+\newcommand{\bo}[1]{\textsl{O}\left(#1\right)}
+\newcommand{\lo}[1]{\textsl{o}\left(#1\right)}
+\newcommand{\bop}[1]{\textsl{$ O_p $}\left(#1\right)}
+\newcommand{\lop}[1]{ \textsl{$ o_p $} \left(#1\right)}
+\newcommand{\sumSimp}[1]{\sum_{#1}}
+\newcommand{\sumComp}[3]{\sum_{#1=#2}^{#3}}
+
+
+% New Command: Formatic Item
+\newcommand{\titleitem}[1]{\item \textbf{#1}\par}
+\newcommand{\ee}{\nonumber\\}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\NoNumSection}[1]{\par \noindent\textbf{#1}.}
+
+
+% % % % % % % % % % % % % % Numbering % % % % % % % % % % % % % %
+\begin{document}
+\title{ \LARGE \textbf{Equity Financing and Monetary Policy\\ Data Appendix}\thanks{Guo (\href{xingguo@umich.edu}{xingguo@umich.edu}): University of Michigan, Department of Economics. Ottonello (\href{pottonel@umich.edu}{pottonel@umich.edu}): University of Michigan, Department of Economics. Whited (\href{twhited@umich.edu}{twhited@umich.edu}): University of Michigan, Ross School of Business.} } 
+
+
+
+\author{\textbf{Xing Guo}\\ \textit{University of Michigan}   \and \textbf{Pablo Ottonello}\\ \textit{University of Michigan} \and \textbf{Toni M. Whited} \\ \textit{University of Michigan} }
+
+\date{\today}
+\maketitle
+
+\section{Macro Evidence}
+\subsection{Data Source}
+The monetary shock time-series used in this section is downloaded from Johannes Wieland's website\footnote{\url{https://sites.google.com/site/johannesfwieland/Monetary_shocks.zip?attredirects=0}}, where the shocks are constructed for \cite{WielandYang:NBER:2016} following the method proposed in \cite{RomerRomer:AER:2004}. Most of the financial time-series about firms' financing activity and balance sheet are extracted from Financial Accounts of the United States - Z.1 (Flow of Fund). The underlying details of equity financing flows since 1996Q4 are downloaded from the Board of Federal Reserve System's website\footnote{\url{https://www.federalreserve.gov/releases/efa/efa-project-equity-issuance-retirement.htm}}. The time-series of gross issuance of equity and debt are downloaded from Jeffrey Wurgler's website\footnote{\url{http://www.stern.nyu.edu/~jwurgler/data/Equity_Share_3.xls}}. The information about IPO and SEO is downloaded either from Jay Ritter's website, or aggregated from SDC. All the other macroeconomic time-series are downloaded from Fred. The detailed data source information for each variable we use is summarized in Table \ref{Tab: DataSource}.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Source for the Aggregate Data}
+	\begin{tabular}{lll}
+		\toprule
+		Variable & Data Source & Code \\
+		\midrule
+		\multicolumn{3}{l}{\textit{Financial Flows}} \\
+		Net Equity Issuance, Corporate & Flow of Fund & FA103164103.Q \\
+		Dividend Payment, Corporate & Flow of Fund & FA106121075.Q \\
+		Net Equity Issuance, Non-Corporate & Flow of Fund & FA112090205.Q \\
+		Net Debt Security Issuance, Corporate & Flow of Fund & FA104122005.Q \\
+		Net Loan Issuance, Corporate & Flow of Fund & FA104123005.Q \\
+		Net Loan Issuance, Non-Corporate & Flow of Fund & FA114123005.Q \\
+		Gross Equity Issuance, Corporate & Wurgler's Website & \texttt{e} \\
+		Gross Debt Issuance, Corporate & Wurgler's Website & \texttt{d} \\
+		\midrule
+		\multicolumn{3}{l}{\textit{Balance Sheet}} \\
+		Total Asset, Corporate & Flow of Fund & FL102000005.Q \\
+		Total Asset, Non-Corporate & Flow of Fund & FL112000005.Q \\
+		\midrule
+		\multicolumn{3}{l}{\textit{Underlying Details of Non-financial Corporate Business' Equity Financing Flows}} \\
+		Number of IPO and SEO since 1970Q1 			& Jay Ritter's website 	&  \\
+		Number and Flow of IPO and SEO since 1970Q1& SDC 	&  \\
+		Flow of SEO and IPO since 1994Q1 			& Fed Board's website 	&  \\
+		Flow of Repurchase and M\&A since 1996Q4 	& Fed Board's website 	&  \\
+		\midrule
+		\multicolumn{3}{l}{\textit{Macroeconomic Time-series}} \\
+		PPI   & Fred  & PIEAMP01USQ661N \\
+		\bottomrule
+	\end{tabular}%
+	\label{Tab: DataSource}%
+	
+\end{table}%
+
+\subsection{Measurement and Sample Construction}
+\paragraph{Monetary shocks} We use the quarterly \texttt{resid\_full} in Wieland and Yang's quarterly data set (\texttt{RR\_monetary\_shock\_quarterly.dta}). 
+\paragraph{Financing Flows} The net equity financing flow is measured as the net equity issuance net of dividend payment for corporate sector, and the net change of the proprietors' equity for non-corporate sector. The net debt financing flow is measured as the sum of net debt security issuance and loan issuance for the corporate sector, and the net loan issuance for the non-corporate sector. 
+
+The quarterly gross equity and debt issuance flows of corporate sector are directly aggregated from the monthly flows in Wurgler's dataset. When aggregating the SEO and IPO flows from SDC, we only keep the U.S. firms whose SIC code is not between 6000 and 6999.  
+
+All the financing flows and balance sheet values are first converted to real term by the PPI index. Then the flows are all normalized by the lagged total asset of the corresponding sector.
+
+\paragraph{Number of Public Equity Issuance} There are two time-series of the number of IPO and SEO deals used in this paper. The first one is downloaded from Jay Ritter's website which are collected from the SEC files. This time-series excludes the only-secondary share issuance and the issuance by the utility firms. The second one is aggregated from the SDC dataset. This time-series excludes the issuance by the financial firms. Comparing with the time-series aggregated from SDC data, Jay Ritter's time-series is more comprehensive. The only problem with this time-series is that it includes the issuance by the financial firms.
+\begin{table}[htbp]
+	\centering
+	\caption{Summary Statistics of the Financial Flows}
+	\begin{tabular}{lcccccc}
+		\toprule[1.5pt]
+		& \multicolumn{3}{c}{1984Q1-2016Q4} & \multicolumn{3}{c}{1970Q-2016Q4} \\
+		& Mean (\%) & Std (\%)  & Corr  & Mean (\%) & Std (\%)  & Corr \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Panel 1. Corporate Firms}} \\
+		Equity Financing (Net Flow) & -2.18 & 0.48  & -0.18 & -1.75 & 0.42  & -0.23 \\
+		\ \ Net Issuance & -0.84 & 0.43  & -0.24 & -0.52 & 0.38  & -0.25 \\
+		\ \ Dividend Payment & 1.35  & 0.19  & -0.08 & 1.23  & 0.16  & 0.00 \\
+		Debt Financing (Net Flow) & 1.28  & 0.64  & 0.21  & 1.50  & 0.66  & 0.46 \\[0.5em]
+		External Financing (Net Flow) & -0.90 & 0.43  & 0.11  & -0.26 & 0.48  & 0.43 \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Panel 2. Non-Corporate Firms}} \\
+		Equity Financing (Net Flow) & -0.02 & 0.55  & 0.06  & -0.24 & 0.65  & 0.28 \\
+		Debt Financing (Net Flow) & 0.88  & 1.29  & 0.12  & 1.24  & 1.31  & 0.40 \\[0.5em]
+		External Financing (Net Flow) & 0.86  & 1.45  & 0.13  & 1.01  & 1.61  & 0.44 \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Panel 3. Aggregate}} \\
+		Equity Financing (Net Flow) & -1.52 & 0.35  & -0.13 & -1.29 & 0.34  & 0.00 \\
+		Debt Financing (Net Flow) & 1.17  & 0.81  & 0.17  & 1.42  & 0.85  & 0.45 \\[0.5em]
+		External Financing (Net Flow) & -0.36 & 0.64  & 0.15  & 0.13  & 0.78  & 0.49 \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Panel 4. Corporate Firms, Gross Issuance Flows from Baker and Wurgler (2002)}} \\
+		Equity & 0.62  & 0.18  & 0.05  & 0.57  & 0.16  & -0.02 \\
+		Debt  & 4.92  & 0.75  & 0.22  & 3.59  & 0.61  & 0.07 \\
+		Total & 5.54  & 0.82  & 0.21  & 4.16  & 0.68  & 0.06 \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Panel 5. Corporate Firms, Public Equity Issuance Aggregated from SDC}} \\
+		IPO & 0.11  & 0.06  & 0.03  & 0.09  & 0.05  & 0.03 \\
+		SEO & 0.24  & 0.07  & 0.01  & 0.22  & 0.07  & -0.15 \\
+		\bottomrule[1.5pt]
+	\end{tabular}%
+	\flushleft
+	\textit{Note:} {\footnotesize The data in Panel 1, 2, and 3 are constructed based on Flow of Fund. The data in Panel 4 is constructed based on the data from Jeffery Wurgler's website, which includes the public equity issuance but not the private placement. The data in Panel 5 is aggregated from SDC, excluding the issuance by non-US firms and financial firms. Flows are normalized by the lagged total asset of the corresponding sector. Before calculating the standard deviation and the correlation with the log-GDP, the normalized flows are filtered by Baxter and King Filter with the standard parameters for quarterly data. The log-GDP is filtered in the same way before calculating the business cycle correlation. }
+\end{table}%
+
+\begin{table}[htbp]
+	{\centering
+	\caption{Summary Statistics of the Numbers of Public Equity Issuance}
+	\begin{tabular}{lcccccc}
+		\toprule[1.5pt]
+		& \multicolumn{3}{c}{1984Q1-2016Q4} & \multicolumn{3}{c}{1970Q-2016Q4} \\
+		& Mean  & Std   & Corr  & Mean  & Std   & Corr \\
+		\midrule
+		\multicolumn{7}{l}{\textit{From Jay Ritter's website}} \\
+		IPO   & 92    & 31.46 & 0.01  & 82.39 & 36.22 & 0.06 \\
+		SEO   & 101   & 30.04 & 0.24  & 82.56 & 29.18 & 0.03 \\
+		\multicolumn{7}{l}{\textit{Aggregated from SDC}} \\
+		IPO   & 56    & 22.63 & -0.02 & 47.12 & 22.72 & 0.04 \\
+		SEO   & 87    & 23.91 & 0.10  & 78.39 & 25.03 & -0.12 \\
+		\bottomrule[1.5pt]
+	\end{tabular}%
+	}
+	\flushleft
+	\textit{Note:} {\footnotesize The time-series constructed by Jay Ritter excludes the issuance by the utility firms but includes those issued by financial firms. The time-series aggregated from SDC excludes the issuance by financial firms. Before calculating the standard deviation and the correlation with the log-GDP, the normalized flows are filtered by Baxter and King Filter with the standard parameters for quarterly data. The log-GDP is filtered in the same way before calculating the business cycle correlation.}
+\end{table}%
+
+
+\begin{table}[htbp]
+	\centering
+	\caption{Summary Statistics: Components of Equity Financing Flows, Non-financial Corporate Firms}
+	\begin{tabular}{lccc}
+		\toprule[1.5pt]
+		& Mean  & Std   & Corr \\
+		\midrule
+		Net Issuance & -0.96 & 0.46  & -0.04 \\[1em]
+		Gross Issuance & 1.17  & 0.26  & 0.22 \\
+		\ \ IPO & 0.10  & 0.06  & 0.13 \\
+		\ \ SEO & 0.21  & 0.05  & 0.33 \\
+		\ \ Others & 0.86  & 0.19  & 0.17 \\[1em]
+		Retirement & 2.13  & 0.54  & 0.14 \\
+		\ \ Repurchase & 1.09  & 0.27  & 0.10 \\
+		\ \ M\&A & 1.04  & 0.32  & 0.15 \\
+	\bottomrule[1.5pt]
+	\end{tabular}%
+	\flushleft
+	\textit{Note:} {\footnotesize The data is downloaded from the Enhanced Financial Accounts of Board of Governors of the Federal Reserve System. The sample spans from 1996Q4 to 2016Q4.  Flows are normalized by the lagged total asset of U.S. non-financial corporate firms. Before calculating the standard deviation and the correlation with the log-GDP, the normalized flows are filtered by Baxter and King Filter with the standard parameters for quarterly data. The log-GDP is filtered in the same way before calculating the business cycle correlation. }
+\end{table}%
+\subsection{Main Evidence}
+The regression design follows \cite{RomerRomer:AER:2004}:
+\begin{align}
+\Delta Y_{t}=\texttt{constant}+\sumComp{\eta}{1}{2\times 4} \beta_{\Delta t}\cdot \Delta Y_{t-\eta}+\sumComp{s}{2}{4} \theta_{s}\cdot \mathds{1}_{\texttt{quarter}_{t}=s}+\sumComp{\iota}{0}{3\times 4} \gamma_{\iota}\cdot MS_{t-\iota}+\varepsilon_{t}
+\end{align}
+where $ Y_{t} $ denotes the flow of interest and $ MS_{t-\iota} $ denotes the monetary shock. The impulse response of $ Y_{t} $ to monetary shock will be characterized by 
+\begin{align}
+\texttt{IRF}_{\iota}=\sumComp{\tilde{\iota}}{0}{\iota} \gamma_{\tilde{\iota}}
+\end{align}
+
+\paragraph{Net Financing Flow: Equity vs. Debt} An unexpected interest rate increase can significantly decrease the equity financing flow of Non-financial U.S. firms. The effect on equity financing flow is comparable to the effect on debt financing flow.
+
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+		\subfloat[Equity]{\includegraphics[width=0.4\linewidth]{../Macro_data/results/Paper/IRF2MS_EquityFin_Agg_Quarterly}} & \subfloat[Debt]{\includegraphics[width=0.4\linewidth]{../Macro_data/results/Paper/IRF2MS_DebtFin_Agg_Quarterly}}\\
+	\end{tabular}
+	\caption{Response of Net Financing Flow to Contractionary Monetary Shock}
+	\label{Fig: Main}
+\end{figure}
+
+\subsection{Robustness Checks}
+
+\paragraph{Corporate vs. Non-Corporate} The impact of contractionary monetary shocks on equity financing flows is not unique to corporate sector.
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+		\subfloat[Sectorial Difference]{\includegraphics[width=0.4\linewidth]{../Macro_data/results/Paper/IRF2MS_EquityFin_CorVsNonCor_Quarterly}} & \subfloat[Composition Difference]{\includegraphics[width=0.4\linewidth]{../Macro_data/results/Paper/IRF2MS_NetIssuanceVsDiv_Cor_Quarterly}}\\
+	\end{tabular}
+	\caption{Response of Equity Financing Flows to Contractionary Monetary Shock}
+	\label{Fig: RobCheck_SectorComposition}
+\end{figure}
+
+\paragraph{Net Issuance vs. Dividend Payment} Another question we need check is: where is the effect mainly coming from, the issuance part, or the dividend part. The answer is: following a contractionary monetary shock, the decrease in the equity financing mainly comes from the net issuance, but not from the dividend payment.
+
+
+\paragraph{Gross Issuance} Since the net issuance is the difference between the gross issuance and retirement, we are interested to know which margin of the variation is the main source of the observed effect. Especially, we want to investigate whether the gross issuance decreases after the contractionary monetary shock. Given we don't have a long time-series of the comprehensive gross issuance and retirement data, we check the response of the public firms' equity issuance in the public market based on the time-series constructed by Baker and Wurgler. A drawback of this measured gross issuance is that it includes the flows from the exercises of employees' stock options. To teeth out this component, we repeat the same exercise with the aggregate IPO and SEO flows from SDC. The aggregate flow from SDC is not perfect since it did not cover a large part of the firm-initiated equity issuance. For robustness check reason, we also repeat the same exercise with the time-series of IPO and SEO numbers constructed by Jay Ritter, which is more comprehensive. The main message to be delivered here is: contractionary monetary shock does make firms issue less equity.
+
+\begin{figure}
+	\centering
+	\begin{tabular}{ccc}
+		\subfloat[Gross Flow (Wurgler's website)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_EquityGrossIssuance_Cor_Quarterly}} & \subfloat[IPO (SDC)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_SdcIpo_Quarterly}}&
+		\subfloat[SEO (SDC)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_SdcSeo_Quarterly}}\\
+	\end{tabular}
+	\caption{Response of Equity Issuance Flows to Contractionary Monetary Shocks}
+	\label{Fig: RobCheck_GrossEquityIssuance}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+		\subfloat[IPO (Jay Ritter)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_IpoNum_Quarterly}}&
+		\subfloat[SEO (Jay Ritter)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_SeoNum_Quarterly}}\\
+		\subfloat[IPO (SDC)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_SdcIpoNum_Quarterly}}&
+		\subfloat[SEO (SDC)]{\includegraphics[width=0.3\linewidth]{../Macro_data/results/Paper/IRF2MS_SdcSeoNum_Quarterly}}\\
+	\end{tabular}
+	\caption{Response of IPO and SEO Numbers to Contractionary Monetary Shocks}
+	\label{Fig: RobCheck_IpoSeoNum}
+\end{figure}
+
+\paragraph{Replication and Extension of \cite{RomerRomer:AER:2004}}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../Macro_data/results/RobustnessCheck/IRF2MS_AggFlow_Quarterly}
+	\caption{Replication and Extension of \cite{RomerRomer:AER:2004}}
+	\label{fig:irf2msaggflowquarterly}
+\end{figure}
+
+\section{Micro Evidence}
+
+\subsection{Data Source}
+The high-frequency monetary shock time-series is downloaded from Michael Weber's website\footnote{\url{http://faculty.chicagobooth.edu/michael.weber/research/data/replication_dataset_gw.xlsx}}. The monetary shocks at each FOMC meeting date which are identified by Romer and Romer's strategy are constructed based on the code posted on Johannes Wieland's website.  The SEO issuance deals are extracted from Thomson and Reuters' Securities Data Company (SDC) Platinum. The stock price information underlying each SEO issuance deal is extracted from CRSP and the balance sheet information about the related firms is extracted from Compustat\footnote{The issuance deal information from SDC, the stock price information from CRSP, and the balance sheet information from Compustat are linked by their CUSIP code and Ticker symbol.}. All the macroeconomic time-series are extracted from FRED.
+\subsection{Measurement and Sample Construction}
+
+\paragraph{Monetary Shocks for each FOMC Meeting} The high-frequency monetary shock series constructed by \cite{GorodnichenkoWeber:AER:2016} are directly the shocks for each FOMC meeting. The monetary shock series constructed by \cite{WielandYang:NBER:2016} is aggregated from the individual shocks for each FOMC meeting at monthly, quarterly or annual frequency. For the purpose of measuring the exposure of each event date to monetary shocks, we need to know the monetary shocks at each FOMC meeting date. So we extract the shock series which is generated right after the FOMC-based regression but before the aggregation based on the code posted by \cite{WielandYang:NBER:2016}.
+
+\paragraph{Cost of Equity Issuance based on Event Study} Following the long literature about the cost of equity issuance caused by information asymmetry, the cost of equity issuance is measured by the stock price drop associated with the event of the release of the information of equity issuance. There are three dates provided by the SDC dataset for each issuance deal: filing date (FD), launch date (LD) and issue date (ID). Here are a short description about the difference between these different event dates\footnote{For more detailed description of the variable definition, refer to \url{http://mergers.thomsonib.com/td/DealSearch/help/nidef.htm}.}: 
+\begin{itemize}
+	\item \textbf{Filing Date} is the date when the issuance is announced or filed to SEC for the first time.
+	
+	\textit{ For shelf-registration deals, Filing Date is the first filing date of the original shelf registration. For non-shelf-registration deals, Filing Date is the Launch Date, or the earliest date on which the registration of the offering was first filed. If Launch Date is unavailable, it will be the announcement date.}
+	\item \textbf{Launch Date} is the date on which the registration of the offering was filed.
+	
+	\textit{For shelf registration deals (deals issuing off an existing shelf), Filing Date is the date of the original shelf registration and Launch Date is the date on which the deal itself was first filed. For example, an issuer files a shelf registration on 1/1/2009 for issuing up to \$200 million securities within the next two years; half a year later the issuer decide to issue \$100 million off that shelf and files a preliminary prospectus for the offering on 7/1/2009; in this example, the Filing Date is 1/1/2009 and the Launch Date is 7/1/2009.}
+	\item \textbf{Issue Date} is the pricing date of the issue.
+\end{itemize}
+
+For a given type of event $ \mathcal{E}\in \left\{\mathtt{F},\mathtt{L},\mathtt{I}\right\} $, the cost of equity issuance for issuance $ i $ will be measured as the accumulated abnormal return ($ \mathcal{AAR} $) within the event window $ [\mathcal{E}_{i}-\delta^{L}_{t},\mathcal{E}_{i}+\delta^{R}_{t}] $:
+\begin{align*}
+	\mathcal{AAR}^{\mathcal{E}}_{i}\equiv \sumComp{t}{\mathcal{E}_{i}-\delta^{-}_{t}}{\mathcal{E}_{i}+\delta^{+}_{t}} \mathcal{AR}^{\mathcal{E}}_{i,t}
+\end{align*}
+where $ \mathcal{E}_{i} $ is the $ \mathcal{E} $ event date of issuance $ i $, $ \delta^{L}_{t}\geq 0, \delta^{R}_{t}\geq 0 $ are the event window width\footnote{The date shifting in this paper is operated by business days, but not the calendar days.}, and $ \mathcal{AR}^{\mathcal{E}}_{i,t} $ is the daily abnormal return of the stock of issuance $ i $ around the event $ \mathcal{E} $. The abnormal return is constructed by:
+\begin{align*}
+	\mathcal{AR}^{\mathcal{E}}_{i,t}\equiv (\mathcal{R}_{i,t}-\mathcal{R}_{ff,t})-\alpha^{\mathcal{E}}_{i}-\beta^{\mathcal{E}}_{i}\cdot \left(\mathcal{R}_{\mathtt{S\&P 500},t}-\mathcal{R}_{ff,t}\right)
+\end{align*}
+where $ \mathcal{R}_{i,t} $ denotes the return of stock $ i $ on date $ t $, $ \mathcal{R}_{ff,t} $ denotes the risk-free rate which is measured by the effective federal funds rate, and $ \mathcal{R}_{ff,t} $ denotes the return rate of \texttt{S\&P} 500 index. The $ \alpha^{\mathcal{E}}_{i} $ and $ \beta^{\mathcal{E}}_{i} $ are calculated by an one-factor model run over the comparison period $ [\mathcal{E}_{i}+\Delta_{t}^{L},\mathcal{E}_{i}+\Delta_{t}^{R}] $:
+\begin{align*}
+	\mathcal{R}_{i,t}-\mathcal{R}_{ff,t}=\alpha^{\mathcal{E}}_{i}+\beta^{\mathcal{E}}_{i}\cdot \left(\mathcal{R}_{S\&P 500,t}-\mathcal{R}_{ff,t}\right)+\varepsilon_{i,t},\quad \forall t\in [\mathcal{E}_{i}+\Delta_{t}^{L},\mathcal{E}_{i}+\Delta_{t}^{R}]
+\end{align*}
+
+\paragraph{Sample} The deals extracted from SDC are required to satisfy following conditions:
+\begin{enumerate}
+	\item Issued by U.S. firms and issued in ``Nasdaq'', ``New York'' and ``American''
+	\item Security type is either ``Common shares'' or ``Ordinary/Common Shares''
+	\item Firms with SIC codes which are not within following three ranges: 6000-6999 (finance), 4900-4999 (utility) and 9000-9999 (quasi-government)
+	\item IPO flag is ``No''
+\end{enumerate}
+
+Among these deals, 74.48\% of them are matched with the stock price record in CRSP. Given the event type $ \mathcal{E} $, if a deal has price history for at least 65 trading days before the event date $ \mathcal{E}_{i} $ and at least 100 trading days within the comparison period $ [\mathcal{E}_{i}+\Delta_{t}^{L},\mathcal{E}_{i}+\Delta_{t}^{R}] $, then it will be kept in the event study. In this paper, we use $ \Delta^{L}_{t}=10 $ and $ \Delta^{R}_{t}=160 $, which is consistent with \cite{ChoeMasulisNanda:JEF:1993}.
+
+\subsection{Validation of the Event Study}
+
+\paragraph{Difference between Different Event Dates}
+\begin{figure}[ph]
+	\centering
+	\begin{tabular}{ll}
+		\subfloat[Median \# Gap between Different Event Dates]{\includegraphics[width=0.5\linewidth]{../Micro_data/results/TableGraph/SumStat/CalHist_GapBusDays_Median}} &
+		\subfloat[Fraction of Shelf-Registrated Issuance]{\includegraphics[width=0.5\linewidth]{../Micro_data/results/TableGraph/SumStat/CalHist_ShelfIssueFlag_Mean}} \\
+	\end{tabular}
+	
+	\caption{Difference between Different Event Dates}
+	\label{fig:calhistgapbusdaysmedian}
+\end{figure}
+
+Before 2000, the there is little difference between the Filing date and Launch date for most of the issuance deals. However, the gap between Launch date and Offer date became much shorter since 2000. This change is caused by the popularity of shelf-registration in equity issuance. As documented in \cite{AutoreKumarShome:JCorFin:2008}, there was a large change in terms of how firms issue equity around this time. 
+
+\begin{table}[htbp]
+	\centering
+	\caption{Summary Statistics: Number of Trading Days between Different Event Dates}
+	\begin{tabular}{lrrrr}
+		\toprule
+		& \multicolumn{2}{c}{Filing to Offer} & \multicolumn{2}{c}{Launch to Offer} \\
+		& \multicolumn{1}{l}{1984-1999} & \multicolumn{1}{l}{2000-2007} & \multicolumn{1}{l}{1970-1999} & \multicolumn{1}{l}{2000-2007} \\
+		\hline
+		Median & 20    & 35    & 17    & 12 \\
+		Mean  & 29.24 & 124.53 & 23.03 & 33.4 \\
+		Std   & 50.03 & 234.35 & 42.99 & 88.9 \\
+		\midrule
+		$ Pr(\leq 0) $ (\%) 	& 0.44  & 1.28  & 12.88 & 16.01 \\
+		$ Pr(\leq 1) $ (\%) 	& 0.69  & 1.84  & 13.13 & 20.35 \\
+		$ Pr(\leq 50) $ (\%) 	& 4.39  & 4.24  & 19.97 & 30.99 \\
+		$ Pr(\leq 10) $ (\%) 	& 13.02 & 9.59  & 29.86 & 45.27 \\
+		$ Pr(\leq 20) $ (\%) 	& 50.3  & 31.97 & 61.48 & 68.61 \\
+		$ Pr(\leq 65) $ (\%) 	& 95.32 & 65.63 & 96.4  & 90.77 \\
+		$ Pr(\leq 133) $ (\%) 	& 98.15 & 77.86 & 98.65 & 95.27 \\
+		$ Pr(\leq 265) $ (\%) 	& 99.19 & 86.97 & 99.48 & 97.56 \\
+		Obs   & 2481  & 1251  & 3640  & 1268 \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+\paragraph{Price Movement around Different Event Dates}
+
+
+\begin{figure}[ph]
+	\centering
+	\begin{tabular}{lll}
+		\subfloat[FD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_AccRet_F_to07_Mean}} &
+		\subfloat[LD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_AccRet_L_to07_Mean}} & 
+		\subfloat[ID]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_AccRet_I_to07_Mean}} \\
+		\subfloat[FD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_Ret_F_to07_Mean}} &
+		\subfloat[LD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_Ret_L_to07_Mean}} & 
+		\subfloat[ID]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_Ret_I_to07_Mean}} \\
+	\end{tabular}
+	\caption{Average Return and Accumulated Return History Around the Event}
+\end{figure}
+
+\begin{figure}[ph]
+	\centering
+	\begin{tabular}{lll}
+		\subfloat[FD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/NarrowWinHist_AbRet_F_to07_Mean}} &
+		\subfloat[LD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/NarrowWinHist_AbRet_L_to07_Mean}} & 
+		\subfloat[ID]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/NarrowWinHist_AbRet_I_to07_Mean}} \\
+		\subfloat[FD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_AccAbRet_F_to07_Mean}} &
+		\subfloat[LD]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_AccAbRet_L_to07_Mean}} & 
+		\subfloat[ID]{\includegraphics[width=0.33\linewidth]{../Micro_data/results/TableGraph/EventWinHistory/WinHist_AccAbRet_I_to07_Mean}} \\
+	\end{tabular}
+	\caption{Average Abnormal Return and Accumulated Abnormal Return Around the Event \label{Fig: PriceEventWinHistory}}
+\end{figure}
+
+As shown in Figure \ref{Fig: PriceEventWinHistory}, there is a clear non-recovered price drop on the Filing date and Launch date. The drops on these two dates have similar magnitude, which is most a result of the fact that these two dates coincide with each other for most of the observations. For the price change on the issuance date, the price starts even before the issuance date, which is mostly a result of the filing or launch date effect, and the drop is almost fully recovered around 20 days later. Therefore, the price change on the issuance date is not persistent, which is consistent with the argument in the previous studies that this price change is more from the trading price pressure in the stock market. 
+
+\paragraph{Price Changes around Different Events}
+We use the accumulated abnormal return from the day before the event date to the day after the event date to measure the price impacts of different types of event. The summary statistics of the accumulated abnormal returns around different event dates is summarized in Table 
+
+\begin{table}[htbp]
+	\centering
+	\caption{Summary Statistics of Prices Change: Unconditional Moments}
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		& \multicolumn{2}{c}{Filing} & \multicolumn{2}{c}{Launch} & \multicolumn{2}{c}{Offer} \\
+		& \multicolumn{1}{l}{1984-1999} & \multicolumn{1}{l}{2000-2007} & \multicolumn{1}{l}{1970-1999} & \multicolumn{1}{l}{2000-2007} & \multicolumn{1}{l}{1970-1999} & \multicolumn{1}{l}{2000-2007} \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Accumulated Abnormal Return from (-1,1)}}\\
+		Median & -1.75 & -1.76 & -1.48 & -2.6  & -0.71 & -1.12 \\
+		Mean  & -1.86 & -1.98 & -1.71 & -2.67 & -1.01 & -0.95 \\
+		Std   & 6.24  & 6.71  & 5.96  & 6.86  & 6.69  & 8.18 \\
+		$ Pr(\leq 0) $ (\%) & 64.82 & 64.01 & 63.95 & 69.05 & 55.79 & 56.27 \\
+		Obs   & 2439  & 1242  & 3587  & 1202  & 3608  & 1251 \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Accumulated Return from (-1,1)}} \\
+		Median & -1.77 & -1.85 & -1.57 & -2.78 & -0.8  & -1.15 \\
+		Mean  & -1.98 & -2.2  & -1.83 & -3.02 & -1.08 & -1.14 \\
+		Std   & 6.4   & 6.94  & 6.08  & 7.09  & 6.7   & 8.48 \\
+		$ Pr(\leq 0) $ (\%) & 68.11 & 64.49 & 67.76 & 70.41 & 60.04 & 56.82 \\
+		Obs   & 2440  & 1242  & 3586  & 1203  & 3606  & 1253\\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+
+\begin{table}[htbp]
+	\centering
+	\caption{Summary Statistics of Prices Changes: Conditional on Share Types}
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		& \multicolumn{3}{c}{Pre-2000} & \multicolumn{3}{c}{Post-2000} \\
+		& \multicolumn{1}{l}{Secondary} & \multicolumn{1}{l}{Combination} & \multicolumn{1}{l}{Primary} & \multicolumn{1}{l}{Secondary} & \multicolumn{1}{l}{Combination} & \multicolumn{1}{l}{Primary}\\
+		\midrule
+		\multicolumn{7}{l}{\textit{Filing Date}}\\
+		Median & -1.7  & -2.14 & -1.48 & -2.66 & -2.52 & -1.09 \\
+		Mean  & -2.07 & -2.21 & -1.51 & -2.75 & -2.87 & -1.23 \\
+		Std   & 5.56  & 6.37  & 6.33  & 4.65  & 8.42  & 6.3 \\
+		$ Pr(\leq 0) $ (\%) & 68.61 & 65.58 & 63.1  & 74.5  & 66.27 & 58.88 \\
+		Obs   & 360   & 953   & 1122  & 251   & 332   & 659\\
+		\midrule
+		\multicolumn{7}{l}{\textit{Launch Date}}\\
+		Median & -1.12 & -1.81 & -1.46 & -2.49 & -3.27 & -2.43 \\
+		Mean  & -1.57 & -1.98 & -1.58 & -2.36 & -3.18 & -2.52 \\
+		Std   & 4.75  & 6.31  & 6.17  & 4.58  & 8.37  & 6.75 \\
+		$ Pr(\leq 0) $ (\%) & 64.67 & 64.88 & 63.01 & 74.12 & 67.58 & 67.75 \\
+		Obs   & 733   & 1247  & 1603  & 255   & 330   & 617 \\
+		\midrule
+		\multicolumn{7}{l}{\textit{Offer Date}}\\
+		Median & -0.27 & -0.67 & -1.11 & -1.72 & 0.37  & -1.21 \\
+		Mean  & -0.36 & -0.95 & -1.36 & -1.15 & -0.14 & -1.31 \\
+		Std   & 5.18  & 7.26  & 6.81  & 5.83  & 9.29  & 8.34 \\
+		$ Pr(\leq 0) $ (\%) & 53.36 & 54.71 & 57.88 & 63.74 & 48.86 & 57.28 \\
+		Obs   & 744   & 1274  & 1586  & 262   & 350   & 639\\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+
+\begin{table}[htbp]
+	\centering
+	\caption{Summary Statistics of Prices Changes: Conditional on Shelf-Registration Type}
+	\begin{tabular}{lrrrr}
+		\toprule
+		& \multicolumn{2}{c}{Pre-2000} & \multicolumn{2}{c}{Post-2000} \\
+		& \multicolumn{1}{l}{No} & \multicolumn{1}{l}{Yes} & \multicolumn{1}{l}{No} & \multicolumn{1}{l}{Yes} \\
+		\midrule
+		\multicolumn{5}{l}{\textit{Filing Date}}\\
+		Median & -1.91 & 0.01  & -2.75 & -1.16 \\
+		Mean  & -2.01 & 0.3   & -2.81 & -1.17 \\
+		Std   & 6.27  & 5.39  & 7.62  & 5.58 \\
+		$ Pr(\leq 0) $ (\%) & 65.86 & 50    & 68.9  & 59.21 \\
+		Obs   & 2282  & 152   & 611   & 630\\
+		\midrule
+		\multicolumn{5}{l}{\textit{Launch Date}}\\
+		Median & -1.6  & -0.68 & -2.88 & -2.36 \\
+		Mean  & -1.79 & -0.47 & -3.02 & -2.28 \\
+		Std   & 6.01  & 4.98  & 7.54  & 6.03 \\
+		$ Pr(\leq 0) $ (\%) & 64.41 & 57.14 & 69.39 & 68.63 \\
+		Obs   & 3372  & 210   & 624   & 577 \\
+		\midrule
+		\multicolumn{5}{l}{\textit{Offer Date}} \\
+		Median & -0.7  & -1.2  & -0.84 & -1.28 \\
+		Mean  & -1.03 & -0.64 & -0.74 & -1.17 \\
+		Std   & 6.76  & 5.21  & 9.33  & 6.7 \\
+		$ Pr(\leq 0) $ (\%) & 55.69 & 58.06 & 53.51 & 59.26 \\
+		Obs   & 3417  & 186   & 656   & 594 \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+\subsection{Main Evidence from Cross-sectional Regression}
+
+\begin{align}
+	\mathcal{AAR}^{\mathcal{E}}_{i}=\texttt{const.}+\beta\cdot \mathtt{ExpToMs}_{i}+\gamma_{\texttt{Macro}}\cdot \mathtt{MacroControl}_{i}+\gamma_{\texttt{Firm}}\cdot \mathtt{FirmControl}_{i}+\varepsilon_{i}
+\end{align}
+\paragraph{Measured Exposure to Monetary Shocks}
+For an event date $ \mathcal{E}_{i} $, its exposure to monetary shocks is measured by the total sum of the monetary shocks during the 90 days right before $ \mathcal{E}_{i} $. 
+\paragraph{Controls for Macro Economic Conditions} The macro-economic controls include
+\begin{enumerate}
+	\item GDP growth rate
+	\item Inflation
+	\item Unemployment rate
+	\item Average effective federal funds rate
+	\item Total S\&P 500 index return
+	\item Standard deviation of the S\&P 500 index daily return
+\end{enumerate}
+
+All these variables are measured based on the quarter which is right before the monetary shocks included in the measured exposure of date $ \mathcal{E}_{i} $ to monetary shocks.
+
+\paragraph{Controls for Firm-level Information} There are three groups of firm-level controls in the regression. The first group is about the individual firms' stock price history: the total sum and volatility of the daily abnormal return from $ \mathcal{E}_{i}-70 $ to $ \mathcal{E}_{i}-10 $. The second group is about the firms' balance sheet and life-cycle characteristics:
+\begin{enumerate}
+	\item Leverage (control for capital structure)
+	\item Ratio between the offered primary shares and total outstanding common shares (control for dilution effect)
+	\item Dummy variables for whether the firm $ i $'s sales growth rate is within the top 25\% or bottom 25\% quantile within the Compustat industrial firm population 
+	\item Dummy variables for whether the firm $ i $'s size is within the top 25\% or bottom 25\% quantile within the Compustat firm population
+\end{enumerate}
+The balance sheet and life-cycle information used in the construction of the above variables are all based on the same quarter with the macro-economic controls. 
+
+The third group is about the fixed characteristics of the firms or the deals: 
+\begin{enumerate}
+	\item Dummy variables for each firms' industry category based on the Fama and French 5 industry group categorization.
+	\item Dummy variables for whether the issuance only has secondary shares, and whether the issuance includes both primary and secondary shares.
+	\item Dummy variable for whether the issuance is shelf-registered under the SEC Rule 415.
+\end{enumerate}
+
+\paragraph{Main Regression Results}
+\begin{table}[htbp]
+	\centering
+	\caption{Regression with Accumulated Abnormal Return around Filing Date}
+	\begin{tabular}{lcccccccc}
+		\toprule
+		& \multicolumn{4}{c}{Romer and Romer } & \multicolumn{4}{c}{High-Frequency} \\
+		& \multicolumn{2}{c}{1983-1999} & \multicolumn{2}{c}{2000-2007} & \multicolumn{2}{c}{1994-1999} & \multicolumn{2}{c}{2000-2007}\\
+		\midrule
+		$ \beta $ & -1.07 & -1.349 & 0.571 & 0.518 & -2.364 & -2.531 & 0.471 & 0.301\\
+		$ t-value $& \textit{(-1.992)} & \textit{(-2.336)} & \textit{(0.747)} & \textit{(0.63)} & \textit{(-2.028)} & \textit{(-2.003)} & \textit{(0.23)} & \textit{(0.137)}\\
+		\midrule
+		Firm-level Controls & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{Yes} \\
+		R2    & 0.006 & 0.021 & 0.002 & 0.036 & 0.009 & 0.045 & 0.001 & 0.035 \\
+		Obs   & 2654  & 2326  & 1242  & 1126  & 1300  & 1160  & 1242  & 1126 \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+\subsection{Robustness Check}
+
+\paragraph{Other Event Dates}
+\begin{table}[htbp]
+	\centering
+	\caption{Regression with Romer and Romer Monetary Shocks}
+	\begin{tabular}{lcccccc}
+		\toprule
+		& \multicolumn{2}{c}{1983-1999} & \multicolumn{2}{c}{1970-1999} & \multicolumn{2}{c}{2000-2007} \\
+		\midrule
+		\multicolumn{7}{c}{\textit{Launch Date}} \\
+		$ \beta $ & -0.878 & -1.077 & -0.442 & -0.5  & -0.122 & -0.229 \\
+		$ t-value $& \textit{-(1.687)} & \textit{-(1.937)} & \textit{-(2.243)} & \textit{-(1.711)} & \textit{-(0.152)} & \textit{-(0.261)}\\
+		\midrule
+		Firm-Level Controls & No    & Yes   & No    & Yes   & No    & Yes\\
+		R2    & 0.005 & 0.019 & 0.005 & 0.016 & 0.002 & 0.021 \\
+		Obs   & 2803  & 2451  & 3587  & 2811  & 1202  & 1095\\
+		\midrule
+		\multicolumn{7}{c}{\textit{Issuance Date}} \\
+		$ \beta $ & 0.43  & 0.116 & 0.042 & 0.21  & -1.459 & -1.557 \\
+		$ t-value $& \textit{(0.701)} & \textit{(0.178)} & \textit{(0.206)} & \textit{(0.68)} & \textit{-(1.537)} & \textit{-(1.556)}\\
+		\midrule
+		Firm-Level Controls & No    & Yes   & No    & Yes   & No    & Yes\\
+		R2    & 0.004 & 0.031 & 0.002 & 0.027 & 0.015 & 0.034 \\
+		Obs   & 2839  & 2480  & 3608  & 2829  & 1251  & 1138 \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+
+\begin{table}[htbp]
+	\centering
+	\caption{Regression with High-Frequency Monetary Shocks}
+	\begin{tabular}{ccccc}
+		\toprule
+		& \multicolumn{2}{c}{1994-1999} & \multicolumn{2}{c}{2000-2007} \\
+		\multicolumn{5}{c}{\textit{Launch Date}} \\
+		$ \beta $ & -2.297 & -2.312 & 1.872 & 1.079 \\
+		& \textit{-(1.948)} & \textit{-(1.812)} & \textit{(0.827)} & \textit{(0.437)} \\
+		\midrule
+		Firm-Level Controls & No    & Yes   & No    & Yes \\
+		R2    & 0.008 & 0.041 & 0.003 & 0.021 \\
+		Obs   & 1296  & 1156  & 1202  & 1095\\
+		\midrule
+		\multicolumn{5}{c}{\textit{Issuance Date}}\\
+		$ \beta $ & -3.712 & -4.137 & -0.837 & -1.818 \\
+		& \textit{-(2.421)} & \textit{-(2.537)} & \textit{-(0.305)} & \textit{-(0.612)} \\
+		\midrule
+		Firm-Level Controls & No    & Yes   & No    & Yes \\
+		R2    & 0.012 & 0.043 & 0.014 & 0.033 \\
+		Obs   & 1320  & 1177  & 1251  & 1138 \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+\paragraph{Ruling out the Shelf-registration Issuance}
+\begin{table}[htbp]
+	\centering
+	\caption{Regression only with Non-Shelf-Registration Issuance}
+	\begin{tabular}{lccccc}
+		\toprule
+		& \multicolumn{3}{c}{Romer and Romer} & \multicolumn{2}{c}{High-Frequency} \\
+		& 1983-1999 & 1970-1999 & 2000-2007 & 1994-1999 & 2000-2007 \\
+		\midrule
+		\multicolumn{6}{c}{\textit{Filing Date}} \\
+		$ \beta $ & -1.349 & -1.182 & -0.684 & -2.372 & -0.611 \\
+		$ t-value $ & \textit{-(2.336)} & \textit{-(1.95)} & \textit{-(0.508)} & \textit{-(1.776)} & \textit{-(0.398)} \\
+		R2    & 0.021 & 0.017 & 0.031 & 0.037 & 0.03 \\
+		Obs   & 2326  & 2160  & 547   & 1042  & 547 \\
+		\midrule
+		\multicolumn{6}{c}{\textit{Launch Date}} \\
+		$ \beta $ & -1.077 & -0.486 & -0.74 & -2.152 & 0.039 \\
+		$ t-value $ & \textit{-(1.937)} & \textit{-(1.618)} & \textit{-(0.558)} & \textit{-(1.59)} & \textit{(0.025)} \\
+		R2    & 0.019 & 0.013 & 0.025 & 0.035 & 0.025 \\
+		Obs   & 2451  & 2633  & 561   & 1047  & 561 \\
+		\midrule
+		\multicolumn{6}{c}{\textit{Issuance Date}} \\
+		$ \beta $ & 0.116 & 0.229 & -3.489 & -3.912 & -1.425 \\
+		$ t-value $ & \textit{(0.178)} & \textit{(0.726)} & \textit{-(2.276)} & \textit{-(2.292)} & \textit{-(0.773)} \\
+		R2    & 0.031 & 0.028 & 0.077 & 0.045 & 0.069 \\
+		Obs   & 2480  & 2668  & 592   & 1081  & 592 \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:addlabel}%
+\end{table}%
+\newpage
+\begin{spacing}{1}
+\bibliographystyle{ecca}
+\bibliography{my_ref}
+\end{spacing}
+
+
+\newpage
+\appendix
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{A\arabic{table}} 
+\setcounter{table}{0}
+\renewcommand{\theequation}{A\arabic{equation}} 
+\setcounter{equation}{0}
+
+
+
+\end{document}
+
+ 

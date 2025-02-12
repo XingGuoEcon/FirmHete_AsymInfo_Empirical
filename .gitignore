@@ -1,0 +1,11 @@
+*.mat
+*.jld2
+*.dta
+*.p
+*.xsd
+*.xml 
+*.xls
+*.xlsx
+*.pdf 
+*.eps
+*.csv
