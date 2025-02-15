@@ -13,6 +13,7 @@ Version History:
 
 ## System Tools
 import os
+import sys
 import numpy as np
 ## I/O Tools
 import _pickle as pickle
@@ -37,25 +38,25 @@ import wrds
 #%% Setup Working Directory
 try:
     # Office Desktop Directory
-    os.chdir("E:\\Dropbox")
+    os.chdir("B:\\Dropbox")
 except:
     # Home Desktop Directory
-    os.chdir("L:\Dropbox")
+    os.chdir("D:\Dropbox")
     
 #Windows System Path
-os.chdir("Research Projects\\EquityMarkets_MonetaryPolicy\\Data\\Micro_data\\codes")
+os.chdir("Research Projects\\02_HeteFirm_AsymetricInformation\\Data\\Micro_data\\codes")
 
 # End of Section: Setup Working Directory
 ###############################################################################
 
 
 #%% Import Self-written Functions
-CodeFolder      =   'Toolkit\\'
-## NBER data plot
-exec(open(CodeFolder+'Fun_NBER_date.py').read())
-exec(open(CodeFolder+'Fun_RomerRomerReg.py').read())
-exec(open(CodeFolder+'Fun_IRF_Plot.py').read())
-exec(open(CodeFolder+'Toolbox_Graph.py').read())
+CodeFolder      =   "../../../../../Code/PythonLib/"
+
+sys.path.append(CodeFolder)
+
+import Toolkit_TimeSeries as MyTS
+import Toolkit_Graphics as MyGR
 # End of Section: Import Self-written Functions
 ###############################################################################
 
@@ -394,7 +395,7 @@ display(np.round(Temp,2))
 
 ## Read in the Data Sets
 DataFolder      =   "..\\temp\\"
-CalHist         =   pickle.load(open(DataFolder+'SDC_AbRet_CalHist.p','rb'))
+CalHist         =   pd.read_pickle(DataFolder+'SDC_AbRet_CalHist.p')
 
 ## Construct the Sample
 Sample          =   CalHist.copy().set_index('Date')
@@ -402,16 +403,31 @@ Sample          =   CalHist.copy().set_index('Date')
 VarList         =   []
 for IF in ['I','F']:
     for NW in ['N','W']:
-        for t in [-5,-1]:
+        for t in [-1,]:
             VarList.append(IF+'_AccAbRet_'+str(t)+'_1_'+NW)
 
-Sample          =   Sample[VarList]*100
+Sample          =   Sample.loc[:, VarList]*100
+Sample.sort_index(inplace=True)
 
-
+temp = pd.read_pickle('../../Macro_data/temp/AggDS_Dict_AggPQ.p')
+Sample = Sample.merge(temp['Detrend']['Growth_GDP'], left_index=True, right_index=True, how='left')
 ### Graph
 
 ## Setup
 GraphFolder     =   "..\\results\\DescriptiveStudy\\"
+
+
+Fig = MyGR.Setup_Fig()
+ax = Fig.add_subplot(1,1,1)
+MyGR.Line(Width=1).Plot(Sample.index, Sample['F_AccAbRet_-1_1_N'], ax=ax, Label="Non-weighted")
+MyGR.Line(Color="Blue", Style="dashed", Width=1).Plot(Sample.index, Sample['F_AccAbRet_-1_1_W'], ax=ax, Label="Weighted")
+MyGR.Line(Color="Gray", Style="solid", Width=2).Plot(Sample.index, Sample['Growth_GDP'], ax=ax, Label="GDP Growth")
+ax.set_xlim([datetime.date(1983,1,1),datetime.date(2015,12,31)])
+MyGR.NBER_RecessionBar(ax)
+MyGR.Setup_Ax(ax, XDateFlag=True, XTickNbins=10)
+
+plt.tight_layout()
+plt.savefig(GraphFolder+'AccAbRet_BusinessCycle.eps', format='eps', dpi=1000)
 
 H_pdf,H_fig     =   Graph_PDF(GraphFolder+'AccAbRet_Quarterly.pdf',FigSize=(10,6))
 ## Issuance Date
