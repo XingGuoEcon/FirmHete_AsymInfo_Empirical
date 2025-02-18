@@ -38,24 +38,19 @@ import wrds
 
 
 #%% Setup Working Directory
-try:
-    # Office Desktop Directory
-    os.chdir("E:\\Dropbox")
-except:
-    # Home Desktop Directory
-    os.chdir("L:\Dropbox")
-    
-#Windows System Path
-os.chdir("Research Projects\\EquityMarkets_MonetaryPolicy\\Data\\Micro_data\\codes")
-
+FolderList = [xx+"\\Dropbox\\Research Projects\\02_FirmHete_AsymmetricInformation\\Data\\Micro_data\\codes\\" \
+              for xx in ["D:\\", "E:\\","B:\\","/mnt/b/"]]
+for Folder in FolderList:
+    if os.path.exists(Folder):
+        os.chdir(Folder)     
 # End of Section: Setup Working Directory
 ###############################################################################
 
 
 
 #%% Import Self-written Functions
-CodeFolder      =   'Toolkit\\'
-exec(open(CodeFolder+'Toolbox_Graph.py').read())
+# CodeFolder      =   'Toolkit\\'
+# exec(open(CodeFolder+'Toolbox_Graph.py').read())
 idx             =   pd.IndexSlice
 # End of Section: Import Self-written Functions
 ###############################################################################
@@ -179,7 +174,7 @@ def TempFun_GroupUnitReg_Ms(DS,GroupVar,DateLimit,EventDict, \
 
 ## Read-in Data
 DataFolder      =   '..\\temp\\'
-DS              =   pickle.load(open(DataFolder+"RegSample.p","rb"))
+DS              =   pd.read_pickle(DataFolder+"RegSample.p")
 
 #DS = DS[DS['GapBusDays_F2I']>5]
 #DS=DS[DS['PrimaryFlag']==-1]
@@ -287,3 +282,74 @@ TT=OutputTable.loc[idx[['Ms','RegInfo'],:],idx['Ms, Full','L',:,:,'Pooled',:]] \
 
 # End of Section:
 ###############################################################################
+# %% Understand the old code 
+
+GroupVar = 'Pooled'
+DateLimit = [datetime.date(1983,1,1),datetime.date(2007,6,1)]
+RetVar  = 'AccAbRet_-1_1'
+EventDict = {'Suffix': 'F', 'DateVar': 'FilingDate'}
+MsVar = '90d_MsWideHF'
+MacroVarList    =   ['GdpGrowth','Inflation','UnemploymentRate','FedFundsRate','SpRet_Sum','SpRet_Std']
+IndRetVarList   =   ['AbRetRunup','AbRetStd']
+FirmVarList     =   ['Leverage','OfferedPrimarySharesDivByCommonShares_Outstanding', \
+                     'Diff_LogSales_LowQuant','Diff_LogSales_UppQuant', \
+                     'Lag_Asset_LowQuant','Lag_Asset_UppQuant', \
+                     'Equity_M2B_LowQuant','Equity_M2B_UppQuant']
+FirmFixVarList  =   ['FF5_1','FF5_2','FF5_3','FF5_4', \
+                     'PrimarySecondaryFlag','OnlySecondaryFlag', \
+                     'ShelfIssueFlag']
+
+RegDesignList   =   [ \
+                     {'MsFlag': False,'Macro': [], 'IndRet': IndRetVarList, 'Firm': FirmVarList,'FirmFix': FirmFixVarList}, \
+                     {'MsFlag': True, 'Macro': MacroVarList,'IndRet': [], 'Firm': [],'FirmFix': []}, \
+                     {'MsFlag': True, 'Macro': MacroVarList,'IndRet': IndRetVarList,'Firm': FirmVarList,'FirmFix': FirmFixVarList} \
+                    ]
+RegDesign = RegDesignList[2]
+
+MacroSuffix = ''
+FirmSuffix = ''
+XList_Macro = RegDesign['Macro']
+XList_Firm = RegDesign['Firm']
+XList_IndRet = RegDesign['IndRet']
+XList_FirmFix = RegDesign['FirmFix']
+
+## Preliminary
+DateType        =   EventDict['Suffix']
+DateVar         =   EventDict['DateVar']
+    
+## Assemble the Variables
+# Y-Variables
+YVar            =   DateType+'_'+RetVar
+# X-Variables
+if MacroSuffix=='' and MsVar!='':
+    XVarList_Macro  =   [DateType+'_'+MsVar+'_'+x for x in XList_Macro]
+else:
+    XVarList_Macro  =   [DateType+'_'+MacroSuffix+'_'+x for x in XList_Macro]
+
+if FirmSuffix=='' and MsVar!='':
+    XVarList_Firm   =   [DateType+'_'+MsVar+'_'+x for x in XList_Firm]
+else:
+    XVarList_Firm   =   [DateType+'_'+FirmSuffix+'_'+x for x in XList_Firm]
+
+    XVarList_IndRet =   [DateType+'_'+x for x in XList_IndRet]
+    XVarList_FirmFix=   XList_FirmFix
+    
+if MsVar=='':
+    MsType          =   'NoMs'
+    XVarList        =   XVarList_Macro+XVarList_Firm+XVarList_IndRet+XVarList_FirmFix
+    XLabelList      =   XList_Macro+XList_Firm+XList_IndRet+XVarList_FirmFix
+else:
+    MsType          =   MsVar
+    XVarList        =   [DateType+'_'+MsVar]+ \
+                        XVarList_Macro+XVarList_Firm+XVarList_IndRet+XVarList_FirmFix
+    XLabelList      =   ['Ms']+ \
+                        XList_Macro+XList_Firm+XList_IndRet+XVarList_FirmFix
+    
+## Assemble the Data
+TempInd         =   ( DS[DateVar]>=DateLimit[0] ) & ( DS[DateVar]<=DateLimit[1] )
+EffectiveDS     =   DS.loc[TempInd,:].copy()    
+if GroupVar=='Pooled':
+    EffectiveDS[GroupVar]   =   0
+RegVarList      =   list(set([YVar]+XVarList+[GroupVar]))
+EffectiveDS     =   EffectiveDS.loc[:, RegVarList].dropna().reset_index(drop=True)
+GroupValueList  =   EffectiveDS[GroupVar].unique().tolist()

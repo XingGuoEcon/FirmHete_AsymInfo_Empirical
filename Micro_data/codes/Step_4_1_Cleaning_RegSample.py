@@ -39,9 +39,9 @@ import wrds
 
 
 ## Windows System Path
-FolderList = [xx + "EquityMarkets_MonetaryPolicy\\Data\\Micro_data\\codes" \
-              for xx in ["D:\\Dropbox (Bank of Canada)\\Research Projects\\", \
-                         "B:\\Dropbox (Bank of Canada)\\Research Projects\\"] ]
+FolderList = [xx + "02_FirmHete_AsymmetricInformation\\Data\\Micro_data\\codes" \
+              for xx in ["D:\\Dropbox\\Research Projects\\", \
+                         "B:\\Dropbox\\Research Projects\\"] ]
 for Folder in FolderList:
     if os.path.exists(Folder):
         os.chdir(Folder)    
@@ -60,26 +60,36 @@ DataFolder      =   "..\\temp\\"
 ### Read-in Data Sets
 
 ## Key Deal-level Information
-DS_IssuanceInfo =   pickle.load(open(DataFolder+"SDC_IssuanceInfo.p","rb"))
+DS_IssuanceInfo =   pd.read_pickle(DataFolder+"SDC_IssuanceInfo.p")
+# pickle.load(open(DataFolder+"SDC_IssuanceInfo.p","rb"))
 
 ## Response Variables: Daily/Accumulated Abnormal/Original Returns
-DS_AbRet        =   pickle.load(open(DataFolder+"SDC_AbRet_Wide.p","rb"))
-DS_Ret          =   pickle.load(open(DataFolder+"SDC_Ret_Wide.p","rb"))
+DS_AbRet        =   pd.read_pickle(DataFolder+"SDC_AbRet_Wide.p")
+# pickle.load(open(DataFolder+"SDC_AbRet_Wide.p","rb"))
+DS_Ret          =   pd.read_pickle(DataFolder+"SDC_Ret_Wide.p")
+# pickle.load(open(DataFolder+"SDC_Ret_Wide.p","rb"))
 
 ## Shock Variables: Different Measure of Exposure to Monetary Shocks
-DS_Ms           =   pickle.load(open(DataFolder+"SDC_UniqueEventDate2Ms.p","rb"))
+DS_Ms           =   pd.read_pickle(DataFolder+"SDC_UniqueEventDate2Ms.p")
+# pickle.load(open(DataFolder+"SDC_UniqueEventDate2Ms.p","rb"))
 DS_Ms           =   DS_Ms.reset_index().rename(columns={'index': 'EventDate'})
 
 ## Control 1: Aggregate Economic Conditions
-DS_AggControl   =   pickle.load(open(DataFolder+"AggControl_Q.p","rb"))
+DS_AggControl   =   pd.read_pickle(DataFolder+"AggControl_Q.p")
+# pickle.load(open(DataFolder+"AggControl_Q.p","rb"))
 
 ### Control 2: Individual Stock Price Movement
-#DS_RetHist      =   pickle.load(open(DataFolder+"SDC_Ret.p","rb"))
-#DS_AbRet        =   pickle.load(open(DataFolder+"SDC_AbRet_Long.p","rb"))
+#DS_RetHist      =   pd.read_pickle(DataFolder+"SDC_Ret.p")
+# pickle.load(open(DataFolder+"SDC_Ret.p","rb"))
+#DS_AbRet        =   pd.read_pickle(DataFolder+"SDC_AbRet_Long.p")
+# pickle.load(open(DataFolder+"SDC_AbRet_Long.p","rb"))
 
 ## Control 3: Firm-Level Information
-DS_FirmInfo     =   pickle.load(open(DataFolder+"SDC_CompustatQ_FirmInfo.p","rb"))
-DS_CompustatQ   =   pickle.load(open(DataFolder+"SDC_CompustatQ.p","rb"))
+DS_FirmInfo     =   pd.read_pickle(DataFolder+"SDC_CompustatQ_FirmInfo.p")
+# pickle.load(open(DataFolder+"SDC_CompustatQ_FirmInfo.p","rb"))
+DS_CompustatQ   =   pd.read_pickle(DataFolder+"SDC_CompustatQ.p")
+# pickle.load(open(DataFolder+"SDC_CompustatQ.p","rb"))
+
 
 ### Key Variable Lists
 
@@ -95,7 +105,7 @@ DealInfoVarList =   [x+y for x in ['FilingDate','LaunchDate','IssueDate'] \
                          for y in ['_F2I','_L2I','_F2L']]+ \
                     ['FiledAmount','ProceedsAmount', \
                      'FiledShares', 'OfferedTotalShares','OfferedPrimaryShares', \
-                     # 'FF5_Code','FF5_Name', \
+                    #  'FF5_Code','FF5_Name', \
                      'PrimaryPct','PrimaryFlag','ShelfIssueFlag']
 ## Response Variables
 AccRetVarList   =   [IF+'_AccRet_'+str(-x)+'_'+str(x) \
@@ -304,9 +314,9 @@ for EventDict in EventDictList:
 
 
 ### Control 5: Industry Classification Dummy
-# for ii in range(1,5):
-#     RegSample.loc[~pd.isna(RegSample['FF5_Code']),'FF5_'+str(ii)]   =   0
-#     RegSample.loc[RegSample['FF5_Code']==ii,'FF5_'+str(ii)]         =   1
+for ii in range(1,5):
+    RegSample.loc[~pd.isna(RegSample['FF5_Code']),'FF5_'+str(ii)]   =   0
+    RegSample.loc[RegSample['FF5_Code']==ii,'FF5_'+str(ii)]         =   1
 
 
 ### Control 6: Issuance Type Dummy
