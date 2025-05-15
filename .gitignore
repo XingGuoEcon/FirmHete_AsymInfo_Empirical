@@ -10,3 +10,4 @@
 *.eps
 *.csv
 Env_Python/
+venv_*/

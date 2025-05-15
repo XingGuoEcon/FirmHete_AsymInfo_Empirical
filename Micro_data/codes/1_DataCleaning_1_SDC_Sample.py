@@ -1,64 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Code Introduction:
-    This code merges the information of Issuance Information from SDC and the 
-    Price History around the Issuance Event from CRSP.
-Version History:
-    Created: Mon Apr 22 13:09:01 2019
-    Current: 
-
-@author: Xing Guo (xingguo@umich.edu)
-
-"""
-
-#%% Import Moduels
-
-## System Tools
-import os
-import numpy as np
-## I/O Tools
-import _pickle as pickle
-## Data Process Tools
-import pandas as pd
-import datetime
-## Graphs
-import matplotlib.pyplot as plt
-import matplotlib.backends.backend_pdf as figpdf
-import matplotlib.dates as matdates
-## Statistical Tools
-import statsmodels.api as sm
-## Database API
-from fredapi import Fred
-## API for WRDS
-import wrds
-
-
-# End of Section: Import Moduels
-###############################################################################
-
-
-#%% Setup Working Directory
-try:
-    # Office Desktop Directory
-    os.chdir("E:\\Dropbox")
-except:
-    # Home Desktop Directory
-    os.chdir("L:\Dropbox")
-    
-#Windows System Path
-os.chdir("Research Projects\\EquityMarkets_MonetaryPolicy\\Data\\Micro_data\\codes")
-
-# End of Section: Setup Working Directory
-###############################################################################
-
-
-
-#%% Import Self-written Functions
-CodeFolder      =   'Toolkit\\'
-exec(open(CodeFolder+'Toolbox_Graph.py').read())
-idx             =   pd.IndexSlice
-# End of Section: Import Self-written Functions
-###############################################################################
+#%% Load in the packages
+from _Public import *
 
 
 #%% Return/Accumulated Return History within the Event Window
@@ -67,13 +8,13 @@ idx             =   pd.IndexSlice
 ### Raw Data Sets
 
 ## Read-in the SEO Deal Information and CRSP History Information
-DataFolder          =   "..\\datasets\\SDC\\Download_20190424\\"
-SDC_IssuanceSample  =   pickle.load(open(DataFolder+'IssuanceSample.p','rb'))
-SDC_CRSP_Info       =   pickle.load(open(DataFolder+'SDC_CRSP_Info.p','rb'))
+DataFolder          =   "Micro_data\\datasets\\SDC\\"
+SDC_IssuanceSample  =   pd.read_pickle(DataFolder+'IssuanceSample.p')
+SDC_CRSP_Info       =   pd.read_pickle(DataFolder+'SDC_CRSP_Info.p')
 
 
 ### Construct the Sample of Issuance Information
-DataFolder          =   "..\\temp\\"
+# DataFolder          =   "..\\temp\\"
 
 ## Merge the SDC_CRSP_Info into the Selected Issuance Sample
 SDC_IssuanceInfo    =   SDC_IssuanceSample \
