@@ -103,7 +103,18 @@ run_python_script("Micro_data/codes/1_DataCleaning_1_SDC_Sample.py")
 """
 run_python_script("Micro_data/codes/1_DataCleaning_2_StockReturnHistory.py")
 
-#%% Step 2: Compute various type of abnormal returns 
+#%% Step 2: Compute various type of stock price changes associated with stock issuance
+# Baseline: stock price change around event dates
+"""
+ Notes:
+    This script computes the (non-filtered) stock price changes associated with stock issuance.
+ Input data sets:
+    1. Micro_data/datasets/SDC/SDC_IssuanceInfo.p
+    2. Micro_data/datasets/SDC/SDC_Ret.p
+ Output data sets:
+    1. Micro_data/datasets/SDC/PriceChange.p
+"""
+run_python_script("Micro_data/codes/2_GenPriceChange_1_AccRet.py")
 # Abnormal returns based on the factor model
 """
  Notes:
@@ -114,5 +125,8 @@ run_python_script("Micro_data/codes/1_DataCleaning_2_StockReturnHistory.py")
     1. Micro_data/datasets/SDC/SDC_AlphaBeta.p
 """
 run_python_script("Micro_data/codes/2_GenAbRet_1_FactorModelRegression.py")
+
+
+
 #%% Step 3: Analysis 
 run_jupyter_notebook("Micro_data/codes/3_Analysis_1_EventStudy.ipynb")
