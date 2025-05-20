@@ -22,8 +22,10 @@ def TempFun_ComputeAbRet(DS, AlphaBeta, EventDateType='F', \
     
     # Only keep the observations within the specified window
     RelDateVar      =   EventDateType+'Date_'+RelativeDateType
-    TempInd         =   DS[RelDateVar].between(HistWindow[0], HistWindow[1])
-    TempDS = DS.loc[TempInd, ['IssueID', RelDateVar, RetVar, RfVar] + FactorVarList].dropna()
+    TempVarList     =   ['IssueID', 'Date', RelDateVar, RetVar, RfVar] + FactorVarList
+    # TempInd         =   DS[RelDateVar].between(HistWindow[0], HistWindow[1])
+    # TempDS = DS.loc[TempInd, ['IssueID', RelDateVar, RetVar, RfVar] + FactorVarList].dropna()
+    TempDS = DS.loc[:, TempVarList].dropna()
     # Incoporate the Alpha and Beta information
     TempDS = TempDS.merge(AlphaBeta.reset_index(), how='left', on='IssueID')
     TempDS.loc[TempDS['Obs']<MinObs, ['Alpha']+['Beta_'+vv for vv in FactorVarList]] = np.nan
@@ -32,9 +34,9 @@ def TempFun_ComputeAbRet(DS, AlphaBeta, EventDateType='F', \
     for vv in FactorVarList:
         TempDS['AbRet'] += TempDS['Beta_'+vv] * TempDS[vv]
     TempDS['AbRet'] = TempDS[RetVar] - TempDS['AbRet'] 
-    TempDS = TempDS.loc[:, ['IssueID', RelDateVar, RetVar, 'AbRet']] \
-                .rename(columns={RetVar: 'Ret', RelDateVar: 'RelDate'}) \
-                .set_index(['IssueID', 'RelDate']).sort_index()
+    TempDS = TempDS.loc[:, ['IssueID', 'Date', RelDateVar, 'AbRet']] \
+                .rename(columns={RelDateVar: 'RelDate'}) \
+                .set_index(['IssueID', 'Date']).sort_index()
     
     return TempDS
 
@@ -68,19 +70,19 @@ pickle.dump(RetPanelDict, open(DataFolder+"SDC_AbRet_Panel.p", 'wb'))
 #%% Compute the cumulated abnormal return 
 
 ### Load in the data of abnormal return panel 
-RetPanelDict = pd.read_pickle(DataFolder+"SDC_AbRet_Panel.p")
+# RetPanelDict = pd.read_pickle(DataFolder+"SDC_AbRet_Panel.p")
 
-RetPanel = pd.concat(RetPanelDict, axis=1, join='outer')
-AccRet = RetPanel.loc[idx[:, [0,1]], :].groupby('IssueID').sum() 
-AccRet_NA = RetPanel.loc[idx[:, [0,1]], :].groupby('IssueID').count() 
-for vv in AccRet_NA.columns:
-    AccRet.loc[AccRet_NA[vv]==0, vv] = np.nan
+# RetPanel = pd.concat(RetPanelDict, axis=1, join='outer')
+# AccRet = RetPanel.loc[idx[:, [0,1]], :].groupby('IssueID').sum() 
+# AccRet_NA = RetPanel.loc[idx[:, [0,1]], :].groupby('IssueID').count() 
+# for vv in AccRet_NA.columns:
+#     AccRet.loc[AccRet_NA[vv]==0, vv] = np.nan
 
-AccRet.rename(columns={'Ret': 'AccRet', 'AbRet': 'AccAbRet'}, level=2, inplace=True)
+# AccRet.rename(columns={'Ret': 'AccRet', 'AbRet': 'AccAbRet'}, level=2, inplace=True)
 
-AccRet.columns = ['_'.join(vv) for vv in AccRet.columns]
+# AccRet.columns = ['_'.join(vv) for vv in AccRet.columns]
 
-pickle.dump(AccRet, open(DataFolder+"SDC_AccAbRet.p", 'wb')) 
+# pickle.dump(AccRet, open(DataFolder+"SDC_AccAbRet.p", 'wb')) 
 # #%% Abnormal Return History
 
 
